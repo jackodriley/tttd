@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thought for the Day Generator</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <h1>Thought for the Day Generator</h1>
+    <label for="object">Everyday Object to Include (Optional):</label>
+    <select id="object">
+        <option value="">None</option>
+        <option value="Cup">Cup</option>
+        <option value="Book">Book</option>
+        <option value="Pen">Pen</option>
+    </select>
+
+    <label for="thinker">Today's Big Thinker:</label>
+    <select id="thinker">
+        <option value="Vicar">Vicar</option>
+        <option value="Bishop">Bishop</option>
+        <option value="Rabbi">Rabbi</option>
+        <option value="Humanist">Trendy Humanist</option>
+    </select>
+
+    <label for="tabooMode">Taboo Mode ON/OFF:</label>
+    <input type="checkbox" id="tabooMode">
+
+    <button onclick="generateThought()">Generate Thought</button>
+    
+    <audio id="audioPlayer" controls hidden></audio>
+    <a id="downloadLink" href="#" hidden>Download MP3</a>
+
+    <button id="toggleTextBtn" onclick="toggleText()">Show Text</button>
+    <p id="thoughtText" hidden></p>
+
+    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
