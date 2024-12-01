@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thought for the Day Generator</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Thought for the Day Generator</h1>
     <label for="object">Everyday Object to Include (Optional):</label>
-    <select id="object">
+    <select id="object" onchange="showOtherField()">
         <option value="">None</option>
         <option value="Cup">Cup</option>
         <option value="Book">Book</option>
         <option value="Pen">Pen</option>
+        <option value="other">Other...</option>
     </select>
+    <input type="text" id="otherObject" placeholder="Enter object" maxlength="75" hidden/>
 
     <label for="thinker">Today's Big Thinker:</label>
     <select id="thinker">
@@ -25,7 +27,10 @@
     </select>
 
     <label for="tabooMode">Taboo Mode ON/OFF:</label>
-    <input type="checkbox" id="tabooMode">
+    <label class="switch">
+        <input type="checkbox" id="tabooMode">
+        <span class="slider round"></span>
+    </label>
 
     <button onclick="generateThought()">Generate Thought</button>
     
@@ -35,6 +40,6 @@
     <button id="toggleTextBtn" onclick="toggleText()">Show Text</button>
     <p id="thoughtText" hidden></p>
 
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>

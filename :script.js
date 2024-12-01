@@ -35,3 +35,9 @@ function toggleText() {
     const thoughtText = document.getElementById('thoughtText');
     thoughtText.hidden = !thoughtText.hidden;
 }
+
+function showOtherField() {
+    const select = document.getElementById('object');
+    const otherInput = document.getElementById('otherObject');
+    otherInput.hidden = select.value !== 'other';
+}
