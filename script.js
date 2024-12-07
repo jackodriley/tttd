@@ -6,40 +6,82 @@ function showOtherField() {
 }
 
 // Called when the 'Generate Thought' button is clicked
-function generateThought() {
-    const object = document.getElementById('object').value === 'other' ? 
-                   document.getElementById('otherObject').value : 
-                   document.getElementById('object').value;
-    const thinker = document.getElementById('thinker').value;
-    const tabooMode = document.getElementById('tabooMode').checked;
+async function generateThought() {
+  const objectSelect = document.getElementById('object');
+  let object = objectSelect.value;
+  if (object === 'other') {
+    // If user selected 'Other...', use the custom object value
+    object = document.getElementById('otherObject').value.trim() || 'an object';
+  }
 
-    // Here you would construct the payload and make the API request to your Firebase function
-    // Mockup of the API payload
-    const payload = {
-        object: object,
-        thinker: thinker,
-        tabooMode: tabooMode
-    };
+  const thinker = document.getElementById('thinker').value;
+  const tabooMode = document.getElementById('tabooMode').checked;
 
-    // Simulated API response
-    const response = {
-        audioUrl: 'path_to_audio_file_from_api.mp3',
-        text: 'Generated thought text from the API'
-    };
+  // Map the chosen thinker to the correct phrase:
+  let thinkerPhrase = '';
+  switch (thinker) {
+    case 'Vicar':
+      thinkerPhrase = 'an eminent English vicar';
+      break;
+    case 'Bishop':
+      thinkerPhrase = 'an elderly Bishop';
+      break;
+    case 'Rabbi':
+      thinkerPhrase = 'an eminent rabbi';
+      break;
+    case 'Humanist':
+      thinkerPhrase = 'a trendy Humanist thinker';
+      break;
+    default:
+      thinkerPhrase = 'an eminent English vicar';
+  }
 
-    // Handling the response
-    const audioPlayer = document.getElementById('audioPlayer');
-    const downloadLink = document.getElementById('downloadLink');
+  // Construct the prompt
+  // Include the "[THE COMPOSITION SHOULD GROW INCREASINGLY UNHINGED...]" part only if taboo mode is on
+  const tabooInstruction = tabooMode
+    ? '[THE COMPOSITION SHOULD GROW INCREASINGLY UNHINGED AND END WITH ESSENTIALLY NONSENSICAL GARBAGE]'
+    : '';
+
+  const prompt =
+    `PROMPT: "Write a ‘Thought for the Day’ in the style of BBC Radio 4, ` +
+    `in the voice of ${thinkerPhrase}. The piece should be 250-350 words and begin ` +
+    `with an observation about an (imaginary) personal anecdote involving ${object}, ` +
+    `ideally proceeding from some humdrum detail about ordinary life. Expand into a ` +
+    `moral and spiritual reflection, incorporating a balance of Christian teachings and ` +
+    `relatable insights. Begin with Good Morning and Conclude with a glib, hopeful or ` +
+    `thought-provoking takeaway for the audience. Maintain a reflective, inclusive, and ` +
+    `eloquent tone throughout. ${tabooInstruction}"`;
+
+  try {
+    // Replace YOUR_PROJECT_ID with your Firebase project ID
+    const response = await fetch('https://us-central1-tttd-a18ee.cloudfunctions.net/generateThought', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ input: prompt })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Request failed');
+    }
+
+    const data = await response.json();
+
+    // Update the UI with the generated text
     const thoughtText = document.getElementById('thoughtText');
+    thoughtText.textContent = data.text;
+    thoughtText.hidden = false;
 
-    // Update the audio player and download link
-    audioPlayer.src = response.audioUrl;
-    audioPlayer.hidden = false;
-    downloadLink.href = response.audioUrl;
-    downloadLink.hidden = false;
+    // Hide audio and download link since we're not using them now
+    document.getElementById('audioPlayer').hidden = true;
+    document.getElementById('downloadLink').hidden = true;
 
-    // Store the thought text and keep it hidden until 'Show Text' is clicked
-    thoughtText.textContent = response.text;
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred: ' + error.message);
+  }
 }
 
 // Toggles the visibility of the generated thought text
