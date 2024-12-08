@@ -17,6 +17,11 @@ async function generateThought() {
   const thinker = document.getElementById('thinker').value;
   const tabooMode = document.getElementById('tabooMode').checked;
 
+  // Add logs to debug the input values
+  console.log("Object selected:", object);
+  console.log("Thinker selected:", thinker);
+  console.log("Taboo mode selected:", tabooMode);
+
   // Map the chosen thinker to the correct phrase:
   let thinkerPhrase = '';
   switch (thinker) {
