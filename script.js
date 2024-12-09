@@ -2,16 +2,22 @@
 function showOtherField() {
     const select = document.getElementById('object');
     const otherInput = document.getElementById('otherObject');
-    otherInput.hidden = select.value !== 'other'; // Show input if 'Other...' is selected
-}
+    otherInput.hidden = select.value !== 'other';
+  }
 
 // Called when the 'Generate Thought' button is clicked
 async function generateThought() {
     const objectSelect = document.getElementById('object');
     let object = objectSelect.value;
+    
     if (object === 'other') {
-      object = document.getElementById('otherObject').value.trim() || 'an object';
+      // Get the custom object from the freeform input field
+      const otherObjectInput = document.getElementById('otherObject').value.trim();
+      object = otherObjectInput || 'an object'; // Fallback to 'an object' if empty
     }
+    
+    // Log the selected or entered object for debugging
+    console.log("Incorporated object:", object);
   
     const thinker = document.getElementById('thinker').value;
     const tabooMode = document.getElementById('tabooMode').checked;
