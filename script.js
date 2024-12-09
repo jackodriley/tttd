@@ -16,23 +16,29 @@ async function generateThought() {
     const thinker = document.getElementById('thinker').value;
     const tabooMode = document.getElementById('tabooMode').checked;
   
-    // Map the chosen thinker to the correct phrase
+    // Map the chosen thinker to the correct phrase and teachings
     let thinkerPhrase = '';
+    let teachings = '';
     switch (thinker) {
       case 'Vicar':
         thinkerPhrase = 'an eminent English vicar';
+        teachings = 'Christian teachings';
         break;
       case 'Bishop':
         thinkerPhrase = 'an elderly Bishop';
+        teachings = 'Christian teachings';
         break;
       case 'Rabbi':
         thinkerPhrase = 'an eminent rabbi';
+        teachings = 'rabbinical teachings';
         break;
       case 'Humanist':
         thinkerPhrase = 'a trendy Humanist thinker';
+        teachings = 'atheistic philosophical teachings';
         break;
       default:
         thinkerPhrase = 'an eminent English vicar';
+        teachings = 'Christian teachings';
     }
   
     const tabooInstruction = tabooMode
@@ -44,7 +50,7 @@ async function generateThought() {
       `in the voice of ${thinkerPhrase}. The piece should be 250-350 words and begin ` +
       `with an observation about an (imaginary) personal anecdote involving ${object}, ` +
       `ideally proceeding from some humdrum detail about ordinary life. Expand into a ` +
-      `moral and spiritual reflection, incorporating a balance of Christian teachings and ` +
+      `moral and spiritual reflection, incorporating a balance of ${teachings} and ` +
       `relatable insights. Begin with Good Morning and Conclude with a glib, hopeful or ` +
       `thought-provoking takeaway for the audience. Maintain a reflective, inclusive, and ` +
       `eloquent tone throughout. ${tabooInstruction}"`;
@@ -81,11 +87,12 @@ async function generateThought() {
     }
   }
 
-// Toggles the visibility of the generated thought text
+  // Toggles the visibility of the generated thought text
 function toggleText() {
     const thoughtText = document.getElementById('thoughtText');
     thoughtText.hidden = !thoughtText.hidden; // Toggle the visibility of the text
 }
+
 
 // It's important to test each function to ensure they're working correctly in the browser.
 // Check for console errors and ensure that the API integration works once added.
