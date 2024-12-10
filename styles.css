@@ -19,9 +19,20 @@ h1 {
     font-size: 3em; /* Adjust size for prominence */
 }
 
+#otherObject {
+    display: none; /* Hidden by default */
+}
+
 label, select, input, button {
     display: block;
     margin-top: 20px;
+}
+
+#potatocorp {
+    font-family: 'VT323', monospace;
+    background-color: black;
+    color: green;
+    margin: 20px;
 }
 
 .switch {
@@ -99,6 +110,13 @@ label, select, input, button {
     text-align: left;
     visibility: hidden;
 }
+
+#resetButton {
+    display: block;
+    margin: 20px auto; /* Center the button horizontally */
+    text-align: center; /* Ensure text alignment */
+}
+
 
 /* 4. Centering and Aesthetic Improvements *
 

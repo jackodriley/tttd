@@ -3,7 +3,7 @@ function showOtherField() {
     const select = document.getElementById('object');
     const otherInput = document.getElementById('otherObject');
     otherInput.style.display = select.value === 'other' ? 'block' : 'none';
-  }
+}
 
 // Called when the 'Generate Thought' button is clicked
 async function generateThought() {
