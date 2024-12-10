@@ -74,38 +74,50 @@ async function generateThought() {
     console.log("Constructed prompt:", prompt); // Debugging log
   
     try {
-      // Make the POST request to the backend
-      const response = await fetch('https://us-central1-tttd-a18ee.cloudfunctions.net/generateThought', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
+        // Make the POST request to the backend
+        const response = await fetch('https://us-central1-tttd-a18ee.cloudfunctions.net/generateThought', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+      
+        if (!response.ok) {
+          throw new Error(`Server responded with status ${response.status}`);
+        }
+      
+        const data = await response.json();
+      
+        // Gradually display the returned text
+        const thoughtText = document.getElementById('thoughtText');
+        thoughtText.textContent = ''; // Clear previous content
+        thoughtText.style.visibility = 'visible';
+      
+        const lines = data.text.split('\n'); // Split response into lines
+        lines.forEach((line, index) => {
+          setTimeout(() => {
+            thoughtText.textContent += line + '\n'; // Add each line with a delay
+          }, index * 500); // Delay increases for each line
+          setTimeout(() => {
+            document.getElementById('resetButton').style.display = 'block';
+          }, lines.length * 500); // Display button after all lines have loaded
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while generating the thought: ' + error.message);
+      } finally {
+        // Hide the loading graphic
+        loadingElement.style.display = 'none';
       }
-  
-      const data = await response.json();
-  
-      // Display the returned text
-      const thoughtText = document.getElementById('thoughtText');
-      thoughtText.textContent = data.text;
-      thoughtText.style.visibility = 'visible';
-    } catch (error) {
-      console.error('Error:', error); // Log errors to console
-      alert('An error occurred while generating the thought: ' + error.message);
-    } finally {
-      // Hide the loading graphic
-      loadingElement.style.display = 'none';
-    }
+
+
+
+function resetApp() {
+    // Reset the app to its default state
+    document.getElementById('thoughtText').style.visibility = 'hidden';
+    document.getElementById('thoughtText').textContent = '';
+    document.getElementById('resetButton').style.display = 'none';
+    document.querySelector('.form-wrapper').style.display = 'block';
   }
-
-  // Toggles the visibility of the generated thought text
-function toggleText() {
-    const thoughtText = document.getElementById('thoughtText');
-    thoughtText.hidden = !thoughtText.hidden; // Toggle the visibility of the text
-}
-
 
 // It's important to test each function to ensure they're working correctly in the browser.
 // Check for console errors and ensure that the API integration works once added.

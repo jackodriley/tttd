@@ -4,8 +4,10 @@
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Patrick+Hand&display=swap');
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Dancing Script', cursive;
+    background-color: #fffacd; /* Pale yellow */
     padding: 20px;
+    margin: 0;
     line-height: 1.6;
 }
 
@@ -99,12 +101,12 @@ label, select, input, button {
 
 /* 3. Limit Text Width for Better Layout */
 #thoughtText {
-    font-family: 'Patrick Hand', cursive; /* Handwritten font */
-    white-space: pre-wrap; /* Preserve line breaks */
-    max-width: 600px; /* Prevent stretching */
-    margin: 0 auto;
+    font-family: 'Dancing Script', cursive; /* Handwritten style */
+    white-space: pre-wrap;
+    max-width: 600px;
+    margin: 20px auto;
     text-align: left;
-    visibility: hidden; /* Hidden until shown line by line */
+    visibility: hidden;
 }
 
 /* 4. Centering and Aesthetic Improvements */
