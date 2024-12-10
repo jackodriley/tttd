@@ -101,6 +101,7 @@ async function generateThought() {
             document.getElementById('resetButton').style.display = 'block';
           }, lines.length * 500); // Display button after all lines have loaded
         });
+
       } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while generating the thought: ' + error.message);
@@ -109,7 +110,7 @@ async function generateThought() {
         loadingElement.style.display = 'none';
       }
 
-
+}
 
 function resetApp() {
     // Reset the app to its default state
