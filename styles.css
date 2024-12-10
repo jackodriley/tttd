@@ -9,6 +9,7 @@ body {
     padding: 20px;
     margin: 0;
     line-height: 1.6;
+    text-align: center;
 }
 
 h1 {
@@ -82,21 +83,11 @@ input:checked + .slider:before {
 }
 
 
-
-body {
-    font-family: 'Patrick Hand', cursive; /* Default text font */
-    background-color: #fffacd; /* Pale yellow background */
-    padding: 20px;
-    margin: 0;
-    line-height: 1.6;
-}
-
-
 /* 2. Styles for Input Fields and Dropdown */
 label, select, input, button {
     display: block;
     margin-top: 20px;
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Dancing Script', cursive;
 }
 
 /* 3. Limit Text Width for Better Layout */
@@ -109,18 +100,8 @@ label, select, input, button {
     visibility: hidden;
 }
 
-/* 4. Centering and Aesthetic Improvements */
-body {
-    text-align: center;
-}
+/* 4. Centering and Aesthetic Improvements *
 
-audio, a, button {
-    margin: 10px auto;
-}
-
-#otherObject {
-    display: none; /* Initially hidden */
-}
 
 /* 5. Toggle Text Button */
 #toggleTextBtn {
