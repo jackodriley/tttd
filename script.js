@@ -2,7 +2,7 @@
 function showOtherField() {
     const select = document.getElementById('object');
     const otherInput = document.getElementById('otherObject');
-    otherInput.hidden = select.value !== 'other';
+    otherInput.style.display = select.value === 'other' ? 'block' : 'none';
   }
 
 // Called when the 'Generate Thought' button is clicked
@@ -46,6 +46,10 @@ async function generateThought() {
         thinkerPhrase = 'an eminent English vicar';
         teachings = 'Christian teachings';
     }
+
+    if (object === 'random') {
+        object = ''; // Omitting object reference for "random"
+      }
   
     const tabooInstruction = tabooMode
       ? '[THE COMPOSITION SHOULD GROW INCREASINGLY UNHINGED AND END WITH ESSENTIALLY NONSENSICAL GARBAGE]'
@@ -81,8 +85,16 @@ async function generateThought() {
   
       // Update the UI with the generated text
       const thoughtText = document.getElementById('thoughtText');
-      thoughtText.textContent = data.text;
-      thoughtText.hidden = false;
+      thoughtText.textContent = ''; // Clear previous content
+      thoughtText.style.visibility = 'visible'; // Make it visible
+      
+      // Split the response into lines
+      const lines = data.text.split('\n'); // Adjust based on how text is formatted
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          thoughtText.textContent += line + '\n'; // Add each line with a delay
+        }, index * 500); // Delay increases for each line (500ms per line)
+      });
   
       // Hide audio and download link since they're not used now
       document.getElementById('audioPlayer').hidden = true;

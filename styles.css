@@ -58,3 +58,56 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* 1. Gothic Font for Page Title and Text */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Patrick+Hand&display=swap');
+
+body {
+    font-family: 'Patrick Hand', cursive; /* Default text font */
+    background-color: #fffacd; /* Pale yellow background */
+    padding: 20px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+h1 {
+    font-family: 'UnifrakturCook', gothic;
+    color: #333;
+    text-align: center;
+}
+
+/* 2. Styles for Input Fields and Dropdown */
+label, select, input, button {
+    display: block;
+    margin-top: 20px;
+    font-family: 'Patrick Hand', cursive;
+}
+
+/* 3. Limit Text Width for Better Layout */
+#thoughtText {
+    font-family: 'Patrick Hand', cursive; /* Handwritten font */
+    white-space: pre-wrap; /* Preserve line breaks */
+    max-width: 600px; /* Prevent stretching */
+    margin: 0 auto;
+    text-align: left;
+    visibility: hidden; /* Hidden until shown line by line */
+}
+
+/* 4. Centering and Aesthetic Improvements */
+body {
+    text-align: center;
+}
+
+audio, a, button {
+    margin: 10px auto;
+}
+
+#otherObject {
+    display: none; /* Initially hidden */
+}
+
+/* 5. Toggle Text Button */
+#toggleTextBtn {
+    display: block;
+    margin: 20px auto;
+}
