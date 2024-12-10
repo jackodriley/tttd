@@ -7,22 +7,31 @@ function showOtherField() {
 
 // Called when the 'Generate Thought' button is clicked
 async function generateThought() {
+    // Hide the form wrapper (selection UX)
+    document.querySelector('.form-wrapper').style.display = 'none';
+  
+    // Show the loading graphic
+    const loadingElement = document.getElementById('loading');
+    loadingElement.style.display = 'block';
+  
+    // Get the user input values
     const objectSelect = document.getElementById('object');
     let object = objectSelect.value;
-    
+  
+    // Handle custom object input if "Other..." is selected
     if (object === 'other') {
-      // Get the custom object from the freeform input field
-      const otherObjectInput = document.getElementById('otherObject').value.trim();
-      object = otherObjectInput || 'an object'; // Fallback to 'an object' if empty
+      object = document.getElementById('otherObject').value.trim() || 'an object';
     }
-    
-    // Log the selected or entered object for debugging
-    console.log("Incorporated object:", object);
+  
+    // Default: Remove object from prompt if "Random" is selected
+    if (object === 'random') {
+      object = '';
+    }
   
     const thinker = document.getElementById('thinker').value;
     const tabooMode = document.getElementById('tabooMode').checked;
   
-    // Map the chosen thinker to the correct phrase and teachings
+    // Map thinker to the corresponding phrase and teachings
     let thinkerPhrase = '';
     let teachings = '';
     switch (thinker) {
@@ -32,7 +41,7 @@ async function generateThought() {
         break;
       case 'Bishop':
         thinkerPhrase = 'an elderly Bishop';
-        teachings = 'Christian teachings';
+        teachings = 'Old Testament teachings';
         break;
       case 'Rabbi':
         thinkerPhrase = 'an eminent rabbi';
@@ -46,11 +55,8 @@ async function generateThought() {
         thinkerPhrase = 'an eminent English vicar';
         teachings = 'Christian teachings';
     }
-
-    if (object === 'random') {
-        object = ''; // Omitting object reference for "random"
-      }
   
+    // Construct the prompt
     const tabooInstruction = tabooMode
       ? '[THE COMPOSITION SHOULD GROW INCREASINGLY UNHINGED AND END WITH ESSENTIALLY NONSENSICAL GARBAGE]'
       : '';
@@ -58,7 +64,7 @@ async function generateThought() {
     const prompt =
       `PROMPT: "Write a ‘Thought for the Day’ in the style of BBC Radio 4, ` +
       `in the voice of ${thinkerPhrase}. The piece should be 250-350 words and begin ` +
-      `with an observation about an (imaginary) personal anecdote involving ${object}, ` +
+      `${object ? `with an observation about an (imaginary) personal anecdote involving ${object}, ` : ''}` +
       `ideally proceeding from some humdrum detail about ordinary life. Expand into a ` +
       `moral and spiritual reflection, incorporating a balance of ${teachings} and ` +
       `relatable insights. Begin with Good Morning and Conclude with a glib, hopeful or ` +
@@ -68,40 +74,29 @@ async function generateThought() {
     console.log("Constructed prompt:", prompt); // Debugging log
   
     try {
+      // Make the POST request to the backend
       const response = await fetch('https://us-central1-tttd-a18ee.cloudfunctions.net/generateThought', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }), // Send the constructed prompt directly
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
       });
   
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Request failed');
+        throw new Error(`Server responded with status ${response.status}`);
       }
   
       const data = await response.json();
   
-      // Update the UI with the generated text
+      // Display the returned text
       const thoughtText = document.getElementById('thoughtText');
-      thoughtText.textContent = ''; // Clear previous content
-      thoughtText.style.visibility = 'visible'; // Make it visible
-      
-      // Split the response into lines
-      const lines = data.text.split('\n'); // Adjust based on how text is formatted
-      lines.forEach((line, index) => {
-        setTimeout(() => {
-          thoughtText.textContent += line + '\n'; // Add each line with a delay
-        }, index * 500); // Delay increases for each line (500ms per line)
-      });
-  
-      // Hide audio and download link since they're not used now
-      document.getElementById('audioPlayer').hidden = true;
-      document.getElementById('downloadLink').hidden = true;
+      thoughtText.textContent = data.text;
+      thoughtText.style.visibility = 'visible';
     } catch (error) {
       console.error('Error:', error); // Log errors to console
-      alert('An error occurred: ' + error.message); // Alert user to the error
+      alert('An error occurred while generating the thought: ' + error.message);
+    } finally {
+      // Hide the loading graphic
+      loadingElement.style.display = 'none';
     }
   }
 
